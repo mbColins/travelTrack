@@ -1,0 +1,100 @@
+{
+  "base_package": "traveltrack",
+  "api_prefix": "/api/v1",
+  "entities": [
+    {
+      "name": "User",
+      "fields": [
+        {
+          "name": "id",
+          "java_type": "Long",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "uuid",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "username",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "firstname",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "lastname",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "email",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "phoneNumber",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "password",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "country",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "neighbourhood",
+          "java_type": "String",
+          "nullable": false,
+          "is_enum": false
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "enums": [
+    {
+      "name": "UserType",
+      "values": [
+        "SYSTEL_ADMIN",
+        "ADMIN",
+        "USER",
+        "STAFF"
+      ]
+    }
+  ],
+  "pom_features": {
+    "has_jpa": true,
+    "has_lombok": true,
+    "has_swagger": false,
+    "has_validation": false
+  },
+  "folder_mapping": {
+    "entity": "models/entity",
+    "dto": "dto",
+    "mapper": "mapper",
+    "repository": "repository",
+    "service": "service",
+    "controller": "controller",
+    "exception": "exception",
+    "config": "config"
+  },
+  "security": null
+}
