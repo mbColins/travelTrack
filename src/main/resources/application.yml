@@ -1,0 +1,6 @@
+#spring.application.name=travelTrack
+
+#jwt-secret = 2a2a67dc7a5c418513539c15acfc4f9f01e3d642ff2671ad8459c3b7184060a7087c3f6951a06ff9bf576b58402d2aa289f6dce9db9c8e2ae4e761cb6e7a358f
+spring:
+  application:
+    name: travelTrack

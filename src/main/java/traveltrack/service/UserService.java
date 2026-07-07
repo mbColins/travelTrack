@@ -15,15 +15,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService implements UserService {
+public class UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper     userMapper;
+    private final UserMapper userMapper;
 
 
     // ── findAll ──────────────────────────────────────────────────────────────
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<UserResponseDTO> findAll() {
         return userMapper.toResponseDTOList(userRepository.findAll());
@@ -31,7 +31,7 @@ public class UserService implements UserService {
 
     // ── findById ─────────────────────────────────────────────────────────────
 
-    @Override
+
     @Transactional(readOnly = true)
     public UserResponseDTO findById(Long id) {
         User entity = userRepository.findById(id)
@@ -71,7 +71,7 @@ public class UserService implements UserService {
 
     // ── delete ───────────────────────────────────────────────────────────────
 
-    @Override
+
     public void delete(Long id) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException(id);
@@ -83,5 +83,10 @@ public class UserService implements UserService {
 
     private void _resolveRelations(User entity, UserRequestDTO dto) {
         // No relations to resolve for this entity.
+    }
+
+    public User loadUserByUserName(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFoundException("user.not.found"));
     }
 }

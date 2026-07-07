@@ -1,17 +1,26 @@
 package traveltrack.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import traveltrack.dto.response.ErrorDetails;
+import traveltrack.helpers.Tools;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+    private final MessageSource messageSource;
 
     // ── Error Response Structure ─────────────────────────────────────
 
@@ -27,13 +36,17 @@ public class GlobalExceptionHandler {
 
     // ── 404: Not Found Exceptions ───────────────────────────────────────────
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleUserNotFound(
-            UserNotFoundException ex,
-            WebRequest request
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(buildError(HttpStatus.NOT_FOUND, ex.getMessage(), request));
+    public ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex, HttpServletRequest  request) {
+        String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), errorMessage, request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<Object> handleUserAlreadyExistException(AlreadyExistException ex, HttpServletRequest request) {
+        String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), errorMessage, request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
     // ── 400: Illegal Argument ───────────────────────────────────────────────
@@ -51,13 +64,14 @@ public class GlobalExceptionHandler {
     // ── 500: Generic Error ───────────────────────────────────────────────
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, Object>> handleRuntime(
-            RuntimeException ex,
-            WebRequest request
-    ) {
+    public ResponseEntity<Map<String, Object>> handleRuntime(RuntimeException ex, WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request));
     }
 
+    public String getMessage(String errorCode, Map<String, Object> arg, Locale language) {
+        String message = messageSource.getMessage(errorCode, null, errorCode, language);
+        return Tools.format(message, arg);
+    }
 }
