@@ -41,7 +41,6 @@ public class UserService {
 
     // ── create ───────────────────────────────────────────────────────────────
 
-    @Override
     public UserResponseDTO create(UserRequestDTO dto) {
         User entity = userMapper.toEntity(dto);
         _resolveRelations(entity, dto);
@@ -50,7 +49,6 @@ public class UserService {
 
     // ── update ───────────────────────────────────────────────────────────────
 
-    @Override
     public UserResponseDTO update(Long id, UserRequestDTO dto) {
         User existing = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));

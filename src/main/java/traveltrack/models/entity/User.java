@@ -5,7 +5,10 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import traveltrack.models.enums.Status;
+import traveltrack.models.enums.UserType;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -50,18 +53,25 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String neighbourhood;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private UserType userType = UserType.USER;
+
     @Column(nullable = false)
     private String createdBy;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + userType.name()));
     }
 
     @Override

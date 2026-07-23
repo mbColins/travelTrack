@@ -67,6 +67,24 @@
         }
       ],
       "relations": []
+    },
+    {
+      "name": "SystemConfig",
+      "fields": [
+        {
+          "name": "id",
+          "java_type": "Long",
+          "nullable": false,
+          "is_enum": false
+        },
+        {
+          "name": "maxAuthAttempt",
+          "java_type": "Long",
+          "nullable": false,
+          "is_enum": false
+        }
+      ],
+      "relations": []
     }
   ],
   "enums": [

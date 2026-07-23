@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -47,6 +49,22 @@ public class GlobalExceptionHandler {
         String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());
         ErrorDetails errorDetails = new ErrorDetails(new Date(), errorMessage, request.getRequestURI(), ex.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
+    }
+
+    // ── 401 / 403: Authentication & Authorization ─────────────────────────
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthentication(AuthenticationException ex, WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(buildError(HttpStatus.UNAUTHORIZED, "Invalid username or password", request));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(buildError(HttpStatus.FORBIDDEN, "Access denied", request));
     }
 
     // ── 400: Illegal Argument ───────────────────────────────────────────────
