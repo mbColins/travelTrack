@@ -64,7 +64,6 @@ public class AuthService {
 
 
     private AuthResponseDTO handleFailedAttempt(User user, long maxTrials) {
-
         long currentAttempts = userAuthAchieveRepository.countByUser(user);
         userAuthAchieveRepository.save(UserAuthAchieve.builder().user(user).build());
 

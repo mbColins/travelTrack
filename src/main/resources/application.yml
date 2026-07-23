@@ -40,3 +40,4 @@ jwt:
 app:
   admin:
     email: ${ADMIN_EMAIL:admin@traveltrack.local}
+    ecpKys : ${ENCRYPTION_KEY:YXpeWuGjfIG8wx8+QRtEJg==}

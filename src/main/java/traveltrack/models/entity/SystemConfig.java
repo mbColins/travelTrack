@@ -18,5 +18,7 @@ public class SystemConfig {
 
     @Column(nullable = false)
     private Long maxAuthAttempt;
+    @Column(nullable = false)
+    private Long otpExpiration;
 
 }

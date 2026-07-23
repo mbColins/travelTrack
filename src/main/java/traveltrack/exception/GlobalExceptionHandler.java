@@ -44,6 +44,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+        String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), errorMessage, request.getRequestURI(), ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<Object> handleUserAlreadyExistException(AlreadyExistException ex, HttpServletRequest request) {
         String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());

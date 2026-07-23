@@ -22,11 +22,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-//    @PostMapping("/register")
-//    public ResponseEntity<AuthResponseDTO> register(@RequestBody UserRequestDTO dto) throws AlreadyExistException {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(dto));
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestDTO dto) {
         AuthResponseDTO response = authService.login(dto);
