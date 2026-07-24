@@ -24,6 +24,8 @@ public class NotificationAccessConfig {
     private String institutionEmail;
     private String institutionEmailPassword;
     private String issuer;
+    private String tenant;
+    private String url;
     private String createdBy;
     @ManyToOne
     private User user;

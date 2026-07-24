@@ -38,4 +38,10 @@ public class EmailCredentialService {
         return notificationAccessConfigRepository.findByUserUsername(user).orElseThrow(
                 () -> new ResourceNotFoundException("user.not.found"));
     }
+
+    public NotificationAccessConfig geCredentials() {
+        return notificationAccessConfigRepository.findAll().stream().findFirst().orElseThrow(
+                () -> new ResourceNotFoundException("no.credential.found"));
+    }
+
 }
